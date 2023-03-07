@@ -4,15 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import logo from '../../assets/img/logo/Logo.png';
 import { toggleBurger } from '../../actions/burger';
 import { handleLogout } from '../../actions/authentication';
+import { displayInfoMessages } from '../../actions/app';
 
 export default function Header() {
   const { isBurgerOpen } = useSelector((state) => state.burger);
-  const {isLogged} = useSelector((state) => state.authentication);
+  const { user } = useSelector((state) => state.authentication);
 
   const dispatch = useDispatch();
 
   const handleSubmitLogout = () => {
     dispatch(handleLogout());
+    dispatch(displayInfoMessages(['Utilisateur déconnecté !']));
   };
 
   return (
@@ -29,15 +31,7 @@ export default function Header() {
             Accueil
           </NavLink>
         </li>
-        <li className="header_nav_item slideInDown-2">
-          <NavLink
-            to="/poster-une-annonce"
-            className={(isActive) => (isActive ? 'header_nav_link header_nav_link--active' : 'header_nav_link')}
-          >
-            Poster une annonce
-          </NavLink>
-        </li>
-        {!isLogged && (
+        {!user && (
           <>
             <li className="header_nav_item slideInDown-4">
               <NavLink
@@ -56,10 +50,18 @@ export default function Header() {
                 Inscription
               </NavLink>
             </li>
-        </>
+          </>
         )}
-        {isLogged && (
+        {user && (
           <>
+            <li className="header_nav_item slideInDown-2">
+              <NavLink
+                to="/poster-une-annonce"
+                className={(isActive) => (isActive ? 'header_nav_link header_nav_link--active' : 'header_nav_link')}
+              >
+                Poster une annonce
+              </NavLink>
+            </li>
             <li className="header_nav_item slideInDown-3">
               <NavLink
                 to="/mon-profil"

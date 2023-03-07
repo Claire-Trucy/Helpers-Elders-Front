@@ -1,13 +1,15 @@
 .create_post {
-  display: flex;
-  flex-direction: column;
   margin: 1em;
   background: white;
+  border-radius: 10px;
+  padding: 1em;
+  text-align: left;
 
   &_header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 1em;
 
     &_title {
       font-size: 1.4em;
@@ -22,13 +24,10 @@
 .form_input {
   display: flex;
   margin-bottom: 15px;
+  align-items: center;
 
   &_title {
     width: 85%;
-  }
-
-  &_zipcode {
-    width: 30%;
   }
 
   &_content {
