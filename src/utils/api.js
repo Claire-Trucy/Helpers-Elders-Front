@@ -1,4 +1,4 @@
-export const baseUrl = 'https://localhost:8000/api';
+export const baseUrl = 'https://samar-al-server.eddi.cloud/helper-elder/api';
 
 export function getHttpAuthHeaders(jwt) {
   return {
