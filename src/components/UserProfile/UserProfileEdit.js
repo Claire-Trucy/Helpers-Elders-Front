@@ -24,7 +24,7 @@ import {
 } from '../../actions/userprofile';
 
 import avatarPlaceholder from '../../../public/img/placeholders/avatar_placeholder.png';
-import { zipcodeRegex } from '../../utils/regex';
+import { zipcodeTypeRegex } from '../../utils/regex';
 
 export default function UserProfile() {
   const {
@@ -55,7 +55,7 @@ export default function UserProfile() {
       email: emailInput,
       postal_code: postalCodeInput,
       gender: selectedGender,
-      dscription: descriptionInput,
+      description: descriptionInput,
     };
     dispatch(submitUserChanges(updatedUser));
   }
@@ -63,16 +63,17 @@ export default function UserProfile() {
   return (
     <div className="userprofile">
       <div className="userprofile_info_media">
-        <img alt="userprofile" className="userprofile_picture" src={user.picture ? user.picture : avatarPlaceholder} />
+        <img className="userprofile_picture" alt="userprofile" src={user.picture ? user.picture : avatarPlaceholder} />
       </div>
-      <form onSubmit={(event) => submitForm(event)}>
-        <div className="userprofile_info_text">
+      <div className="userprofile_info_text">
+        <form onSubmit={(event) => submitForm(event)}>
           <div className="userprofile_button_modify">
             <Button type="submit" variant="contained">Enregistrer</Button>
           </div>
           <div className="userprofile_info_text_paragraph_edit">
             <div className="userprofile_form_item">
               <TextField
+                fullWidth
                 size="small"
                 label="Prénom"
                 value={firstnameInput}
@@ -81,6 +82,7 @@ export default function UserProfile() {
             </div>
             <div className="userprofile_form_item">
               <TextField
+                fullWidth
                 size="small"
                 label="Nom"
                 value={lastnameInput}
@@ -89,6 +91,7 @@ export default function UserProfile() {
             </div>
             <div className="userprofile_form_item">
               <TextField
+                fullWidth
                 size="small"
                 label="Date de naissance"
                 value={birthdateInput}
@@ -97,6 +100,7 @@ export default function UserProfile() {
             </div>
             <div className="userprofile_form_item">
               <TextField
+                fullWidth
                 size="small"
                 label="Email"
                 value={emailInput}
@@ -105,34 +109,32 @@ export default function UserProfile() {
             </div>
             <div className="userprofile_form_item">
               <TextField
+                fullWidth
                 size="small"
                 label="Localisation"
                 value={postalCodeInput}
                 onChange={(event) => {
-                  if (zipcodeRegex.test(event.target.value)) dispatch(profileEditTypePostalCode(event.target.value));
+                  if (zipcodeTypeRegex.test(event.target.value)) dispatch(profileEditTypePostalCode(event.target.value));
                 }}
               />
             </div>
-            <FormControl fullWidth className="searchbar_form_item_service" size="small">
+            <FormControl size="small">
               <InputLabel>Sexe</InputLabel>
               <Select
                 label="Sexe"
                 value={selectedGender}
                 onChange={(e) => dispatch(profileEditSelectGender(e.target.value))}
-
               >
                 <MenuItem value={1}>Homme</MenuItem>
                 <MenuItem value={2}>Femme</MenuItem>
-                <MenuItem value={3}>Ne préfère pas répondre</MenuItem>
               </Select>
             </FormControl>
           </div>
 
-          <div className="userprofile_inputs">
+          <div className="userprofile_input">
             <div className="userprofile_input_description_edit">
               <TextField
                 fullWidth
-                rows={10}
                 multiline
                 label="Description"
                 value={descriptionInput}
@@ -140,9 +142,8 @@ export default function UserProfile() {
               />
             </div>
           </div>
-        </div>
-      </form>
-
+        </form>
+      </div>
     </div>
   );
 }

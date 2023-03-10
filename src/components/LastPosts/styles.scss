@@ -36,9 +36,9 @@
           display: flex;
 
           &_picture {
-            width: 48px;
-            height: 48px;
-            font-size: 0; // hiding alt when image is not found
+            width: 4em;
+            height: 4em;
+            border-radius: 50%;
           }
 
           &_info {
@@ -50,7 +50,7 @@
             &_title {
               text-align: left;
               display: -webkit-box;
-              -webkit-line-clamp: 1; /* number of lines to show */
+              -webkit-line-clamp: 2; /* number of lines to show */
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -67,6 +67,11 @@
 
         &_content {
           display: none;
+        }
+
+        &:hover {
+          background-color:  vars.$hover-white-color;
+          transition: background-color 0.2s;
         }
       }
     }

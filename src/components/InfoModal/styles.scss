@@ -4,11 +4,16 @@
   position: fixed;
   background-color: vars.$main-color;
   top: 0;
+  left: 0;
   margin: 1em;
   padding: 0.5em;
   border-radius: 10px;
   max-width: 200px;
   color: white;
+
+  &--error {
+    background-color: red;
+  }
 
   &_title {
     font-weight: bold;
@@ -21,15 +26,11 @@
   }
 
   &_messages {
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     text-align: left;
 
     &:not(:last-child) {
       margin-bottom: 0.5em;
     }
-  }
-
-  &-hidden {
-    display: none;
   }
 }

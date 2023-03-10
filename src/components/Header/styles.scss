@@ -7,19 +7,41 @@
   width: 100%;
   min-height: 75px;
   background-color: vars.$transparent-background-color;
-  padding: 1rem;
+  padding: 0 0.5rem;
 
   &_logo {
-    height: 80px;
+    height: 150px;
+    transition: transform .1s;
+    &:hover {
+        transform: rotate(-10deg);
+        }
   }
+  
 
   &_nav {
     display: flex;
+    flex-grow: 1;
+    justify-content: space-evenly;
   }
 
   &_nav_link {
-    padding: 0.3rem;
     color: inherit;
+    padding-bottom: 0.4em;
+    background: 
+      linear-gradient(currentColor 0 0) 
+      bottom /var(--d, 0) 2px 
+      no-repeat;
+    transition: background 0.4s;
+    
+
+    &:hover {
+      --d: 70%;
+    }
+
+    &--active {
+      font-weight: bold;
+      color: vars.$main-color;
+    }
   }
 
   &_burger {
@@ -62,9 +84,15 @@
     }
 
     &_link {
+      color: white;
       display: block;
-      padding: 1.5rem;
+      padding: 0.4em;
       font-size: 5vw;
+
+      &--active {
+        font-weight: bolder;
+        font-style: italic;
+      }
     }
   }
 
@@ -73,13 +101,14 @@
     right: 0;
     visibility: visible;
     z-index: 10;
+    color: white;
   }
 
   .header_burger {
     display: block;
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
     z-index: 11;
   }
 
@@ -145,18 +174,18 @@
   }
 
   .show-nav .slideInDown-2 {
-      transition: all 1.1s ease-out;
+    transition: all 1.1s ease-out;
   }
 
   .show-nav .slideInDown-3 {
-      transition: all 1.2s ease-out;
+    transition: all 1.2s ease-out;
   }
 
   .show-nav .slideInDown-4 {
-      transition: all 1.3s ease-out;
+    transition: all 1.3s ease-out;
   }
 
   .show-nav .slideInDown-5 {
-    transition: all 1.4s ease-out;
+  transition: all 1.4s ease-out;
 }
 }

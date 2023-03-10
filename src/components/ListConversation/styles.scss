@@ -1,22 +1,23 @@
 @use '../../styles/vars';
 
-main {
-  width: 100%;
-  height: auto;
-}
-
 .conversation {
-
+  width: 100%;
+  flex:1;
+  &_message {
+    font-style: italic;
+  }  
   &_header {
   width: 100%;
   height: 5em;
   background-color: vars.$main-color;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   z-index: 2;
+  justify-content: center;
+  color: white;
+  margin-bottom: 0.5em;
 
   &_button {
     width: 20%;
@@ -24,42 +25,39 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+    }
 
   &_button button {
     background-color: transparent;
     border: none;
+    color: white;
 
     & img {
       width: 2em;
       height: 2em;
+      }
     }
-  }
 
-  &_title {
-    width: 60%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    color: white;
-    text-transform: capitalize;
-    }
   }
 
   &_section {
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin: 0 1em;
 
-    &_list:first-of-type {
-      margin-top: 1.6em;
+    &:not(:last-child) {
+      border-bottom: 1px solid grey;
+    }
+
+    &:hover {
+      background-color:  vars.$hover-white-color;
+      transition: 0.2s;
     }
 
     &_list {
       width: 95%;
-      height: 3em;
+      height: 5em;
       display: flex;
-      margin-bottom: 1em;
 
       &_picture {
         width: 20%;
@@ -107,7 +105,7 @@ main {
         flex-direction: column;
 
         &_time {
-          font-size: .6em;
+          font-size: .8em;
           color: rgb(129, 122, 122);
           display: flex;
           justify-content: center;
@@ -134,13 +132,19 @@ main {
   }
 }
 
+@media (min-width: vars.$small-breakpoint) {
+  .conversation_section_list_content_content {
+    padding-top: .2em;
+  }
+}
+
 @media (min-width: vars.$medium-breakpoint) {
   .conversation_header_title {
     width: 50%;
   }
 
   .conversation_section_list {
-    height: 4em;
+    height: 6em;
 
     &_content_name {
       font-size: 1.1em;

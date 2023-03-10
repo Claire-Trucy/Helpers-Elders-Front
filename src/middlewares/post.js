@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { displayInfoMessages, redirectAction } from '../actions/app';
-import { handlePostSaved, SUBMIT_NEW_POST } from '../actions/createpostform';
+import { createPostFormClear, createPostThrowErrors, SUBMIT_NEW_POST } from '../actions/createpostform';
 import { baseUrl, getHttpAuthHeaders } from '../utils/api';
 import {
   getPost, getReviews, loadReviews, LOAD_POST, LOAD_REVIEWS,
@@ -13,11 +13,14 @@ const postMiddleware = (store) => (next) => (action) => {
 
   // filter functions
   function filterByZipcode(post) {
+    if (adressInput === '') return true;
     // eslint-disable-next-line max-len
     if (adressInput.slice(0, 2) === 97) return adressInput.slice(0, 3) === post.postalCode.slice(0, 3);
     return adressInput.slice(0, 2) === post.postalCode.slice(0, 2);
   }
+
   function filterByServices(post) {
+    if (selectedServices.length === 0) return true;
     if (postType === 'aidant') {
       const tagsAsInt = post.tag.map((tag) => tag.id);
       return selectedServices.every((service) => tagsAsInt.includes(service));
@@ -39,14 +42,9 @@ const postMiddleware = (store) => (next) => (action) => {
         `${baseUrl}/annonce/${searchUrl()}`,
       )
         .then((response) => {
-          if (response.status !== 200) {
-            console.log('posts not found');
-          }
-          else {
-            const arrayPostsFilter = response.data.filter(filterByServices).filter(filterByZipcode);
-            store.dispatch(getFilteredPosts(arrayPostsFilter));
-            store.dispatch(redirectAction('/annonce'));
-          }
+          const arrayPostsFilter = response.data.filter(filterByServices).filter(filterByZipcode);
+          store.dispatch(getFilteredPosts(arrayPostsFilter));
+          store.dispatch(redirectAction('/annonce'));
         })
         .catch((error) => {
           console.log(error);
@@ -57,29 +55,23 @@ const postMiddleware = (store) => (next) => (action) => {
     case LOAD_POST:
       axios.get(
         // URL
-        `${baseUrl}/annonce/${action.id}`, // TO DO check that this is the right URL
+        `${baseUrl}/annonce/${action.id}`,
       )
         .then((response) => {
-          if (response.status !== 200) {
-            console.log('post not found');
-          }
-          else {
-            store.dispatch(getPost(response.data));
-            if (store.getState().authentication.user !== null) {
-              store.dispatch(loadReviews(response.data.user.id));
-            }
+          store.dispatch(getPost(response.data));
+          if (store.getState().authentication.user !== null) {
+            store.dispatch(loadReviews(response.data.user.id));
           }
         })
         .catch((error) => {
           console.log(error);
-          errorManagement(error.response.status, store);
         });
       break;
 
     case LOAD_REVIEWS:
       axios.get(
         // URL
-        `${baseUrl}/profil/${action.userId}`, // TO DO check that this is the right URL
+        `${baseUrl}/profil/${action.userId}`,
         // header
         getHttpAuthHeaders(store.getState().authentication.jwt),
       )
@@ -110,14 +102,14 @@ const postMiddleware = (store) => (next) => (action) => {
             console.log('post creation failed');
           }
           else {
-            store.dispatch(handlePostSaved());
+            store.dispatch(createPostFormClear());
             store.dispatch(redirectAction('/'));
             store.dispatch(displayInfoMessages(['Annonce créée avec succès !']));
           }
         })
         .catch((error) => {
           console.log(error);
-          errorManagement(error.response.status, store);
+          if (!errorManagement(error.response.status, store)) store.dispatch(createPostThrowErrors('La création d\'annonce a échoué'));
         });
       break;
     default:
