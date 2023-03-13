@@ -5,6 +5,8 @@
   &_list {
 
     margin: 1em;
+    display: flex;
+    flex-direction: column-reverse;
 
     &_item {
       overflow-wrap: anywhere;
