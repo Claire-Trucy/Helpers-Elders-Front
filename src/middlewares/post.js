@@ -62,6 +62,7 @@ const postMiddleware = (store) => (next) => (action) => {
         })
         .catch((error) => {
           console.log(error);
+          errorManagement(error.response.status, store);
         });
       break;
 
